@@ -6,12 +6,18 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: '*',
-    redirect: 'index',
+    redirect: '/',
   },
   {
     path: '/',
-    name: 'ProductList',
+    name: 'Login',
+    component: () => import('@/views/Login/index.vue'),
+  },
+  {
+    path: '/petlist',
+    name: 'PetList',
     component: () => import('@/views/Dashboard/index.vue'),
+    meta: { requiresAuth: true },
   },
 ];
 
