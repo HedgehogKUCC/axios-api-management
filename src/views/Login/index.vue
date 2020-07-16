@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="container">
-      <form class="form-signin" @submit.prevent="signin">
+      <form class="form-signin" @submit.prevent="signin" style="margin-top: 50px;">
         <h1 class="h3 mb-3 font-weight-normal">
           請先登入
         </h1>
@@ -55,11 +55,17 @@ export default {
   methods: {
     signin() {
       apiUserLogin(this.user).then((res) => {
-        // FIXME: ESLint 提示用 object destructuring
-        const { token, expired } = res.data;
-        document.cookie = `0717Demo=${token}; expires=${new Date(expired * 1000)};`;
-        this.$router.push('/petlist');
+        if (res.data.success) {
+          this.$Toast.add('登入成功', 'success');
+          // FIXME: ESLint 提示用 object destructuring
+          const { token, expired } = res.data;
+          document.cookie = `0717Demo=${token}; expires=${new Date(expired * 1000)};`;
+          this.$router.push('/petlist');
+        } else {
+          this.$Toast.add('登入失敗', 'danger');
+        }
       }).catch((err) => {
+        this.$Toast.add('登入失敗', 'danger');
         console.log(err);
       });
     },

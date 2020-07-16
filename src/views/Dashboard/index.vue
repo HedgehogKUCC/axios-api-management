@@ -376,8 +376,11 @@ export default {
 
       apiUserLogout(params).then((res) => {
         if (res.data.success) {
+          this.$Toast.add('帳號登出成功', 'success');
           document.cookie = '0717Demo=; expires=;';
           this.$router.push('/');
+        } else {
+          this.$Toast.add(res.data.message, 'warning');
         }
       }).catch((err) => {
         console.log(err);
