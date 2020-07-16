@@ -17,7 +17,7 @@ new Vue({
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {
     const token = document.cookie.replace(/(?:(?:^|.*;\s*)0717Demo\s*=\s*([^;]*).*$)|^.*$/, '$1');
-    console.log('router.beforeEach.token : ', token);
+
     const params = {
       Authorization: `Bearer ${token}`,
       api_token: `${token}`,

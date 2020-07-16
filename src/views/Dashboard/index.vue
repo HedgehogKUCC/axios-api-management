@@ -4,6 +4,13 @@
         <div class="text-right">
           <button
             type="button"
+            class="btn btn-outline-warning mr-3"
+            @click="signout"
+          >
+            登出
+          </button>
+          <button
+            type="button"
             class="btn btn-primary"
             @click="openModal('new')"
           >
@@ -270,6 +277,7 @@
 
 <script>
 import $ from 'jquery';
+import { apiUserLogout } from '@/api/index';
 
 export default {
   data() {
@@ -357,6 +365,23 @@ export default {
         });
       }
       $('#delProductModal').modal('hide');
+    },
+    signout() {
+      const token = document.cookie.replace(/(?:(?:^|.*;\s*)0717Demo\s*=\s*([^;]*).*$)|^.*$/, '$1');
+
+      const params = {
+        Authorization: `Bearer ${token}`,
+        api_token: `${token}`,
+      };
+
+      apiUserLogout(params).then((res) => {
+        if (res.data.success) {
+          document.cookie = '0717Demo=; expires=;';
+          this.$router.push('/');
+        }
+      }).catch((err) => {
+        console.log(err);
+      });
     },
   },
 };
